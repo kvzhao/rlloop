@@ -1,10 +1,10 @@
 # rlloop project
 
 ## intro
-Applying reinforcement learning algorithm to play [icegame](github.com/kvzhao/icegame), which is a physical problem designed as a Game.
+Applying reinforcement learning algorithm to play [icegame](https://github.com/kvzhao/icegame), which is a physical problem designed as a Game.
 
 ## TODO
-* DQN way of init configuration is too complicated
+* Experiment manager
 
 ## Codes credits
 * dqn code : https://github.com/devsisters/DQN-tensorflow
