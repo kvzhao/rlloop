@@ -1,3 +1,13 @@
+*.o 
+*.so 
 *.pyc
-*.egg-info
-build data dist
+*.npy
+mcrun 
+SquareLattice 
+info
+.DS_Store
+build
+test*
+gym_icegame.egg-info
+dist
+
