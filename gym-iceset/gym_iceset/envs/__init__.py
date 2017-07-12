@@ -1,2 +1,0 @@
-from gym_iceset.envs.ice_trainer import IceTrainerEnv
-from gym_iceset.envs.loop_creator import LoopCreatorEnv
