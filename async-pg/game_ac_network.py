@@ -158,7 +158,7 @@ class GameACLSTMNetwork(GameACNetwork):
 
     scope_name = "net_" + str(self._thread_index)
     with tf.device(self._device), tf.variable_scope(scope_name) as scope:
-      self.W_conv1, self.b_conv1 = self._conv_variable([3, 3, 1, 16])  # stride=4
+      self.W_conv1, self.b_conv1 = self._conv_variable([3, 3, 4, 16])  # stride=4
       self.W_conv2, self.b_conv2 = self._conv_variable([5, 5, 16, 32]) # stride=2
 
       self.W_fc1, self.b_fc1 = self._fc_variable([3872, 256])
@@ -173,7 +173,7 @@ class GameACLSTMNetwork(GameACNetwork):
       self.W_fc3, self.b_fc3 = self._fc_variable([256, 1])
 
       # state (input)
-      self.s = tf.placeholder("float", [None, 32, 32, 1])
+      self.s = tf.placeholder("float", [None, 32, 32, 4])
       #self.s = tf.placeholder("float", [None, 84, 84, 4])
 
       h_conv1 = tf.nn.relu(self._conv2d(self.s,  self.W_conv1, 2) + self.b_conv1)
