@@ -7,8 +7,11 @@ import sys
 
 #from game_state import GameState
 #from game_state import ACTION_SIZE
-from icegame_state import ACTION_SIZE
-from icegame_state import IceGameState
+#from icegame_state import ACTION_SIZE
+#from icegame_state import GameState
+from sawgame_state import ACTION_SIZE
+from sawgame_state import GameState
+
 from game_ac_network import GameACFFNetwork, GameACLSTMNetwork
 
 from constants import GAMMA
@@ -55,7 +58,7 @@ class A3CTrainingThread(object):
     self.sync = self.local_network.sync_from(global_network)
     
     # random seed
-    self.game_state = IceGameState(113 * thread_index)
+    self.game_state = GameState(113 * thread_index)
     
     self.local_t = 0
 
