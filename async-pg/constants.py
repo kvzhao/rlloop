@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-LOCAL_T_MAX = 4 # repeat step size
+LOCAL_T_MAX = 1 # repeat step size
 
 RMSP_ALPHA = 0.99 # decay parameter for RMSProp
 RMSP_EPSILON = 0.1 # epsilon parameter for RMSProp
