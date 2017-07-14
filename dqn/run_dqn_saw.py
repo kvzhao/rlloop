@@ -12,7 +12,7 @@ import dqn
 from dqn_utils import *
 
 
-def atari_model(img_in, num_actions, scope, reuse=False):
+def value_approximator(img_in, num_actions, scope, reuse=False):
     # as described in https://storage.googleapis.com/deepmind-data/assets/papers/DeepMindNature14236Paper.pdf
     with tf.variable_scope(scope, reuse=reuse):
         out = img_in
@@ -28,7 +28,7 @@ def atari_model(img_in, num_actions, scope, reuse=False):
 
         return out
 
-def atari_learn(env,
+def game_learn(env,
                 session,
                 num_timesteps):
     # This is just a rough estimate
@@ -50,7 +50,7 @@ def atari_learn(env,
     def stopping_criterion(env, t):
         # notice that here t is the number of steps of the wrapped env,
         # which is different from the number of steps in the underlying env
-        return get_wrapper_by_name(env, "Monitor").get_total_steps() >= num_timesteps
+        pass
 
     exploration_schedule = PiecewiseSchedule(
         [
@@ -62,7 +62,7 @@ def atari_learn(env,
 
     dqn.learn(
         env,
-        q_func=atari_model,
+        q_func=cnn_model,
         optimizer_spec=optimizer,
         session=session,
         exploration=exploration_schedule,
@@ -121,7 +121,7 @@ def main():
     seed = 0 # Use a seed of zero (you may want to randomize the seed!)
     env = get_env(task, seed)
     session = get_session()
-    atari_learn(env, session, num_timesteps=10000000)
+    game_learn(env, session, num_timesteps=10000000)
 
 if __name__ == "__main__":
     main()
