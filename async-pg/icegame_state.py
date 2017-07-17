@@ -5,6 +5,7 @@ import gym
 import gym_icegame
 
 from constants import ACTION_SIZE
+ACTION_SIZE = 4
 
 class GameState(object):
   def __init__(self, rand_seed, display=False):
@@ -17,8 +18,8 @@ class GameState(object):
 
   def _process_frame(self, action):
     timeout = self.env.timeout()
-    x_t, reward, done, info = self.env.step(action)
-    #x_t, reward, done, info = self.env.step_auto(action)
+    #x_t, reward, done, info = self.env.step(action)
+    x_t, reward, done, info = self.env.step_auto(action)
     terminal = timeout or done
     # x_t *= (1.0/255.0)
     return reward, terminal, x_t
