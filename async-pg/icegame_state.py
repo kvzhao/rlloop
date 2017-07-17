@@ -25,10 +25,8 @@ class GameState(object):
     return reward, terminal, x_t
     
   def reset(self):
-    self.env.reset()
-    
-    _, _, self.s_t = self._process_frame(7)
-    
+    self.s_t = self.env.reset()
+    #_, _, self.s_t = self._process_frame(7)
     self.reward = 0
     self.terminal = False
     #self.s_t = np.stack((x_t, x_t, x_t, x_t), axis = 2)
