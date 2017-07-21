@@ -8,7 +8,7 @@ import sys
 from icegame_state import ACTION_SIZE
 from icegame_state import GameState
 
-from game_ac_network import GameACFFNetwork, GameACLSTMNetwork
+from a3c_network_for_ice import GameACFFNetwork, GameACLSTMNetwork
 
 from constants import GAMMA
 from constants import LOCAL_T_MAX
@@ -51,12 +51,12 @@ class A3CTrainingThread(object):
     self.apply_gradients = grad_applier.apply_gradients(
       global_network.get_vars(),
       self.gradients )
-      
+
     self.sync = self.local_network.sync_from(global_network)
-    
+
     # random seed
     self.game_state = GameState(113 * thread_index)
-    
+
     self.local_t = 0
 
     self.initial_learning_rate = initial_learning_rate
@@ -81,7 +81,7 @@ class A3CTrainingThread(object):
     })
     summary_writer.add_summary(summary_str, global_t)
     summary_writer.flush()
-    
+
   def set_start_time(self, start_time):
     self.start_time = start_time
 
@@ -100,7 +100,7 @@ class A3CTrainingThread(object):
 
     if USE_LSTM:
       start_lstm_state = self.local_network.lstm_state_out
-    
+
     # t_max times loop
     for i in range(LOCAL_T_MAX):
       pi_, value_ = self.local_network.run_policy_and_value(sess, self.game_state.s_t)
@@ -130,14 +130,14 @@ class A3CTrainingThread(object):
 
       # s_t1 -> s_t
       self.game_state.update()
-      
+
       if terminal:
         terminal_end = True
         print("score={}".format(self.episode_reward))
 
         self._record_score(sess, summary_writer, summary_op, score_input,
                            self.episode_reward, global_t)
-          
+
         self.episode_reward = 0
         self.game_state.reset()
         if USE_LSTM:
@@ -195,7 +195,7 @@ class A3CTrainingThread(object):
                   self.local_network.td: batch_td,
                   self.local_network.r: batch_R,
                   self.learning_rate_input: cur_learning_rate} )
-      
+
     if (self.thread_index == 0) and (self.local_t - self.prev_local_t >= PERFORMANCE_LOG_INTERVAL):
       self.prev_local_t += PERFORMANCE_LOG_INTERVAL
       elapsed_time = time.time() - self.start_time
@@ -206,4 +206,4 @@ class A3CTrainingThread(object):
     # return advanced local step size
     diff_local_t = self.local_t - start_local_t
     return diff_local_t
-    
+

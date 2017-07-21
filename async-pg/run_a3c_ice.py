@@ -108,7 +108,7 @@ else:
 
 def train_function(parallel_index):
   global global_t
-  
+
   training_thread = training_threads[parallel_index]
   # set start_time
   start_time = time.time() - wall_t
@@ -123,17 +123,17 @@ def train_function(parallel_index):
     diff_global_t = training_thread.process(sess, global_t, summary_writer,
                                             summary_op, score_input)
     global_t += diff_global_t
-    
-    
+
+
 def signal_handler(signal, frame):
   global stop_requested
   print('You pressed Ctrl+C!')
   stop_requested = True
-  
+
 train_threads = []
 for i in range(PARALLEL_SIZE):
   train_threads.append(threading.Thread(target=train_function, args=(i,)))
-  
+
 signal.signal(signal.SIGINT, signal_handler)
 
 # set start time
@@ -146,12 +146,12 @@ print('Press Ctrl+C to stop')
 signal.pause()
 
 print('Now saving data. Please wait')
-  
+
 for t in train_threads:
   t.join()
 
 if not os.path.exists(CHECKPOINT_DIR):
-  os.mkdir(CHECKPOINT_DIR)  
+  os.mkdir(CHECKPOINT_DIR)
 
 # write wall time
 wall_t = time.time() - start_time
