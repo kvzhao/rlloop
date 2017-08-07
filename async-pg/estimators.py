@@ -77,12 +77,12 @@ class LSTMPolicyEstimator():
             }
 
             # We add entropy to the loss to encourage exploration
-            self.entropy = -tf.reduce_sum(self.probs * tf.log(self.probs), 1, name="entropy")
+            self.entropy = -tf.reduce_sum(self.probs * tf.log(tf.clip_by_value(self.probs, 1e-10, 1.0)), 1, name="entropy")
             self.entropy_mean = tf.reduce_mean(self.entropy, name="entropy_mean")
 
             # Get the predictions for the chosen actions only
             gather_indices = tf.range(batch_size) * tf.shape(self.probs)[1] + self.actions
-            self.picked_action_probs = tf.gather(tf.reshape(self.probs, [-1]), gather_indices) + 1e-8
+            self.picked_action_probs = tf.gather(tf.reshape(self.probs, [-1]), gather_indices) 
 
             self.losses = - (tf.log(self.picked_action_probs) * self.targets + 0.01 * self.entropy)
             self.loss = tf.reduce_sum(self.losses, name="loss")
