@@ -10,7 +10,6 @@ def normalized_columns_initializer(std=1.0):
         return tf.constant(out)
     return _initializer
 
-
 def cosineLoss(A, B, name):
     ''' A, B : (BatchSize, d) '''
     dotprod = tf.reduce_sum(tf.multiply(tf.nn.l2_normalize(A,1), tf.nn.l2_normalize(B,1)), 1)
@@ -72,12 +71,10 @@ def deconv2d(x, out_shape, name, filter_size=(3, 3), stride=(1, 1), pad="SAME", 
         # deconv2d = tf.reshape(tf.nn.bias_add(deconv2d, b), deconv2d.get_shape())
         return deconv2d
 
-
 def linear(x, size, name, initializer=None, bias_init=0):
     w = tf.get_variable(name + "/w", [x.get_shape()[1], size], initializer=initializer)
     b = tf.get_variable(name + "/b", [size], initializer=tf.constant_initializer(bias_init))
     return tf.matmul(x, w) + b
-
 
 def categorical_sample(logits, d):
     value = tf.squeeze(tf.multinomial(logits - tf.reduce_max(logits, [1], keep_dims=True), 1), [1])

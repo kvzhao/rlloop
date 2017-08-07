@@ -101,7 +101,6 @@ class Worker(object):
     def run(self, sess, coord, t_max):
         with sess.as_default(), sess.graph.as_default():
             # Initial state
-            # self.state = atari_helpers.atari_make_initial_state(self.sp.process(self.env.reset()))
             self.state = self.env.reset()
             try:
                 while not coord.should_stop():
@@ -136,7 +135,6 @@ class Worker(object):
             # eps-greedy action
             action = np.random.choice(np.arange(len(action_probs)), p=action_probs)
             next_state, reward, done, _ = self.env.step(action)
-            # next_state = atari_helpers.atari_make_next_state(self.state, self.sp.process(next_state))
 
             # Store transition
             transitions.append(Transition(
@@ -150,7 +148,6 @@ class Worker(object):
                 tf.logging.info("{}: local Step {}, global step {}".format(self.name, local_t, global_t))
 
             if done:
-                # self.state = atari_helpers.atari_make_initial_state(self.sp.process(self.env.reset()))
                 self.state = self.env.reset()
                 ### reset features
                 if LSTM_POLICY:
@@ -173,7 +170,6 @@ class Worker(object):
         reward = 0.0
         if not transitions[-1].done:
             reward = self.value_net.predict_value(transitions[-1].next_state)
-            #reward = self._value_net_predict(transitions[-1].next_state, sess)
         
         if LSTM_POLICY:
             init_lstm_state = self.policy_net.get_init_features()
@@ -188,7 +184,6 @@ class Worker(object):
         for transition in transitions[::-1]:
             reward = transition.reward + self.discount_factor * reward
             policy_target = (reward - self.value_net.predict_value(transition.state))
-            #policy_target = (reward - self._value_net_predict(transition.state, sess))
             # Accumulate updates
             states.append(transition.state)
             actions.append(transition.action)

@@ -16,8 +16,6 @@ if import_path not in sys.path:
 from gym.wrappers import Monitor
 import gym
 
-# from lib.atari.state_processor import StateProcessor
-# from lib.atari import helpers as atari_helpers
 from estimators import ValueEstimator, PolicyEstimator, LSTMPolicyEstimator
 from worker import make_copy_params_op
 

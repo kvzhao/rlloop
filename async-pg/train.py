@@ -58,8 +58,6 @@ if FLAGS.reset:
 
 if not os.path.exists('.'.join([MODEL_DIR])):
     os.makedirs('.'.join([MODEL_DIR]))
-#if not os.path.exists(MODEL_DIR):
-#    os.makedirs(MODEL_DIR)
 if not os.path.exists(CHECKPOINT_DIR):
     os.makedirs(CHECKPOINT_DIR)
 

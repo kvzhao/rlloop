@@ -224,7 +224,6 @@ class ValueEstimator():
         # The TD target value
         self.targets = tf.placeholder(shape=[None], dtype=tf.float32, name="y")
 
-        # X = tf.to_float(self.states) / 255.0
         X = tf.to_float(self.states) 
 
         # Graph shared with Value Net
